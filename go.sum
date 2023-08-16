@@ -10,6 +10,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/dchest/uniuri v1.2.0 h1:koIcOUdrTIivZgSLhHQvKgqdWZq5d7KdMEWF1Ud6+5g=
 github.com/drone-plugins/drone-buildx v1.0.2-0.20230512061850-99d0da95877e h1:UVfB6v/wptaDtyfhEwxnUXViMfEiN97LudyfSeLw2hA=
 github.com/drone-plugins/drone-buildx v1.0.2-0.20230512061850-99d0da95877e/go.mod h1:2CEwXGujWoB9bBQqknU214yd/FJzUNDDHGlg9qb3M4c=
+github.com/drone-plugins/drone-buildx v1.0.2 h1:zlqCAko0frvNO9kXUPnsoyc0BxDoR93s5ieaTDItdDw=
+github.com/drone-plugins/drone-buildx v1.0.2/go.mod h1:z4BaR8J5oF/yly5VPW0PU61XOmrqsZvb5kdarmmSmho=
 github.com/drone-plugins/drone-docker v0.0.0-20230516214326-025dfb0adcad h1:0/CtKuTi5zR9GZiVTHyjdnFLwp9EPYskOg4x9HpUEdw=
 github.com/drone-plugins/drone-docker v0.0.0-20230516214326-025dfb0adcad/go.mod h1:x+jHIgW3nIN9/h6053fExzCFKKjCrH22Cnsm7nQJcrs=
 github.com/drone-plugins/drone-plugin-lib v0.4.1 h1:47rZlmcMpr1hSp+6Gl+1Z4t+efi/gMQU3lxukC1Yg64=
