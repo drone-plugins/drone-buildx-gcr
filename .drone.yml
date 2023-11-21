@@ -34,7 +34,7 @@ trigger:
 ---
 
 kind: pipeline
-name: release-binaries
+name: GCR release
 type: vm
 
 pool:
@@ -74,6 +74,57 @@ steps:
         - release/drone-buildx-gcr-darwin-arm64.zst
         - release/drone-buildx-gcr-darwin-amd64.zst
         - release/drone-buildx-gcr-windows-amd64.exe.zst
+      api_key:
+        from_secret: github_token
+    when:
+      event:
+        - tag
+depends_on:
+  - testing
+
+---
+
+kind: pipeline
+name: GAR release
+type: vm
+
+pool:
+  use: ubuntu
+
+steps:
+  - name: build
+    pull: always
+    image: golang:1.19
+    commands:
+      - GOOS=linux   GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gar-linux-amd64 ./cmd/drone-buildx-gar
+      - GOOS=linux   GOARCH=arm64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gar-linux-arm64 ./cmd/drone-buildx-gar
+      - GOOS=darwin  GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gar-darwin-amd64 ./cmd/drone-buildx-gar
+      - GOOS=darwin  GOARCH=arm64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gar-darwin-arm64 ./cmd/drone-buildx-gar
+      - GOOS=windows GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gar-windows-amd64.exe ./cmd/drone-buildx-gar
+
+    environment:
+      CGO_ENABLED: 0
+      GO111MODULE: on
+
+  - name: zstd-compress
+    commands:
+      - sudo apt-get update -y
+      - sudo apt-get install -y zstd
+      - zstd release/drone-buildx-gar-linux-amd64
+      - zstd release/drone-buildx-gar-linux-arm64
+      - zstd release/drone-buildx-gar-darwin-arm64
+      - zstd release/drone-buildx-gar-darwin-amd64
+      - zstd release/drone-buildx-gar-windows-amd64.exe
+
+  - name: release
+    image: plugins/github-release
+    settings:
+      files:
+        - release/drone-buildx-gar-linux-amd64.zst
+        - release/drone-buildx-gar-linux-arm64.zst
+        - release/drone-buildx-gar-darwin-arm64.zst
+        - release/drone-buildx-gar-darwin-amd64.zst
+        - release/drone-buildx-gar-windows-amd64.exe.zst
       api_key:
         from_secret: github_token
     when:

@@ -7,6 +7,10 @@ Build the binaries with the following commands:
 ```console
 go build ./cmd/drone-buildx-gcr
 ./drone-buildx-gcr
+
+//gar
+go build ./cmd/drone-buildx-gar
+./drone-buildx-gar
 ```
 
 ## Usage
