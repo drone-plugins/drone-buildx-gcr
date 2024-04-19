@@ -2,8 +2,6 @@ module github.com/drone-plugins/drone-buildx-gcr
 
 go 1.22
 
-toolchain go1.22.0
-
 require (
 	github.com/drone-plugins/drone-buildx v1.0.2
 	github.com/joho/godotenv v1.5.1
