@@ -104,7 +104,7 @@ func main() {
 	os.Setenv("PLUGIN_REGISTRY", config.Registry)
 	os.Setenv("DOCKER_USERNAME", config.Username)
 	if config.AccessToken != "" {
-		os.Setenv("DOCKER_PASSWORD", config.AccessToken)
+		os.Setenv("PLUGIN_ACCESS_TOKEN", config.AccessToken)
 	} else {
 		os.Setenv("DOCKER_PASSWORD", config.Password)
 	}
