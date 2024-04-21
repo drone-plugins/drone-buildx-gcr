@@ -12,7 +12,7 @@ platform:
 
 steps:
   - name: vet
-    image: golang:1.17
+    image: golang:1.21
     commands:
       - go vet ./...
     environment:
@@ -43,7 +43,7 @@ pool:
 steps:
   - name: build
     pull: always
-    image: golang:1.19
+    image: golang:1.21
     commands:
       - GOOS=linux   GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gcr-linux-amd64 ./cmd/drone-buildx-gcr
       - GOOS=linux   GOARCH=arm64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gcr-linux-arm64 ./cmd/drone-buildx-gcr
