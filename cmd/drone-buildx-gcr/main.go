@@ -55,7 +55,6 @@ func loadConfig() Config {
 	if idToken != "" && projectId != "" && poolId != "" && providerId != "" && serviceAccountEmail != "" {
 		federalToken, err := gcp.GetFederalToken(idToken, projectId, poolId, providerId)
 		if err != nil {
-			logrus.Fatalf("PLUGIN_OIDC_TOKEN_ID: %s, PLUGIN_PROJECT_NUMBER: %s, PLUGIN_POOL_ID: %s, PLUGIN_PROVIDER_ID: %s, PLUGIN_SERVICE_ACCOUNT_EMAIL: %s", idToken, projectId, poolId, providerId, serviceAccountEmail)
 			logrus.Fatalf("Error (getFederalToken): %s", err)
 		}
 		accessToken, err := gcp.GetGoogleCloudAccessToken(federalToken, serviceAccountEmail)
