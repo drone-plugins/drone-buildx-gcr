@@ -1,12 +1,9 @@
 package main
 
 import (
-	"context"
-	"encoding/base64"
 	"log"
 	"os"
 	"path"
-	"strconv"
 	"strings"
 
 	docker "github.com/drone-plugins/drone-buildx"
@@ -14,16 +11,14 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 )
 
 type Config struct {
-	Repo             string
-	Registry         string
-	Password         string
-	WorkloadIdentity bool
-	Username         string
-	AccessToken      string
+	Repo        string
+	Registry    string
+	Password    string
+	Username    string
+	AccessToken string
 }
 
 type staticTokenSource struct {
@@ -69,8 +64,8 @@ func loadConfig() Config {
 			"GOOGLE_CREDENTIALS",
 			"TOKEN",
 		)
-		config.WorkloadIdentity = parseBoolOrDefault(false, getenv("PLUGIN_WORKLOAD_IDENTITY"))
-		config.Username, config.Password = setUsernameAndPassword(username, password, config.WorkloadIdentity)
+		config.Username = username
+		config.Password = password
 	}
 	config.Repo = getenv("PLUGIN_REPO")
 	config.Registry = getenv("PLUGIN_REGISTRY")
@@ -80,12 +75,6 @@ func loadConfig() Config {
 
 func main() {
 	config := loadConfig()
-	if config.AccessToken != "" {
-		os.Setenv("ACCESS_TOKEN", config.AccessToken)
-	} else if config.Username != "" && config.Password != "" {
-		os.Setenv("DOCKER_USERNAME", config.Username)
-		os.Setenv("DOCKER_PASSWORD", config.Password)
-	}
 
 	// default registry value
 	if config.Registry == "" {
@@ -111,46 +100,6 @@ func main() {
 
 	// invoke the base docker plugin binary
 	docker.Run()
-}
-
-func getOauthToken(data []byte) (s string) {
-	scopes := []string{
-		"https://www.googleapis.com/auth/cloud-platform",
-	}
-	ctx := context.Background()
-	credentials, err := google.CredentialsFromJSON(ctx, data, scopes...)
-	if err == nil {
-		token, err := credentials.TokenSource.Token()
-		if err == nil {
-			return token.AccessToken
-		}
-	}
-	return
-}
-
-func setUsernameAndPassword(user string, pass string, workloadIdentity bool) (u string, p string) {
-	// decode the token if base64 encoded
-	decoded, err := base64.StdEncoding.DecodeString(pass)
-	if err == nil {
-		pass = string(decoded)
-	}
-	// get oauth token and set username if using workload identity
-	if workloadIdentity {
-		data := []byte(pass)
-		pass = getOauthToken(data)
-		user = "oauth2accesstoken"
-	}
-	return user, pass
-}
-
-func parseBoolOrDefault(defaultValue bool, s string) (result bool) {
-	var err error
-	result, err = strconv.ParseBool(s)
-	if err != nil {
-		result = defaultValue
-	}
-
-	return
 }
 
 func getenv(key ...string) (s string) {
