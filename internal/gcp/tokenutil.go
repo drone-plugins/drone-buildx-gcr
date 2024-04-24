@@ -18,21 +18,29 @@ func (s *staticTokenSource) Token() (*oauth2.Token, error) {
 	return s.token, nil
 }
 
+const (
+	audienceFormat = "//iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s/providers/%s"
+	scopeURL       = "https://www.googleapis.com/auth/cloud-platform"
+)
+
 func GetFederalToken(idToken, projectNumber, poolId, providerId string) (string, error) {
 	ctx := context.Background()
 	stsService, err := sts.NewService(ctx, option.WithoutAuthentication())
 	if err != nil {
 		return "", err
 	}
-	audience := fmt.Sprintf("//iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s/providers/%s", projectNumber, poolId, providerId)
+
+	audience := fmt.Sprintf(audienceFormat, projectNumber, poolId, providerId)
+
 	tokenRequest := &sts.GoogleIdentityStsV1ExchangeTokenRequest{
 		GrantType:          "urn:ietf:params:oauth:grant-type:token-exchange",
 		SubjectToken:       idToken,
 		Audience:           audience,
-		Scope:              "https://www.googleapis.com/auth/cloud-platform",
+		Scope:              scopeURL,
 		RequestedTokenType: "urn:ietf:params:oauth:token-type:access_token",
 		SubjectTokenType:   "urn:ietf:params:oauth:token-type:id_token",
 	}
+
 	tokenResponse, err := stsService.V1.Token(tokenRequest).Do()
 	if err != nil {
 		return "", err

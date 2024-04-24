@@ -55,9 +55,9 @@ func loadConfig() Config {
 			"GOOGLE_CREDENTIALS",
 			"TOKEN",
 		)
-		config.Username = username
 		config.Password = password
 	}
+	config.Username = username
 	config.Repo = getenv("PLUGIN_REPO")
 	config.Registry = getenv("PLUGIN_REGISTRY")
 
