@@ -10,7 +10,6 @@ import (
 	"github.com/drone-plugins/drone-buildx-gcr/internal/gcp"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"golang.org/x/oauth2"
 )
 
 type Config struct {
@@ -19,14 +18,6 @@ type Config struct {
 	Password    string
 	Username    string
 	AccessToken string
-}
-
-type staticTokenSource struct {
-	token *oauth2.Token
-}
-
-func (s *staticTokenSource) Token() (*oauth2.Token, error) {
-	return s.token, nil
 }
 
 func loadConfig() Config {
@@ -92,7 +83,7 @@ func main() {
 	os.Setenv("PLUGIN_REGISTRY", config.Registry)
 	os.Setenv("DOCKER_USERNAME", config.Username)
 	if config.AccessToken != "" {
-		os.Setenv("PLUGIN_ACCESS_TOKEN", config.AccessToken)
+		os.Setenv("ACCESS_TOKEN", config.AccessToken)
 	} else {
 		os.Setenv("DOCKER_PASSWORD", config.Password)
 	}
