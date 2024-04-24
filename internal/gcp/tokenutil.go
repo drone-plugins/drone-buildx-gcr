@@ -10,14 +10,6 @@ import (
 	"google.golang.org/api/sts/v1"
 )
 
-type staticTokenSource struct {
-	token *oauth2.Token
-}
-
-func (s *staticTokenSource) Token() (*oauth2.Token, error) {
-	return s.token, nil
-}
-
 const (
 	audienceFormat = "//iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s/providers/%s"
 	scopeURL       = "https://www.googleapis.com/auth/cloud-platform"
@@ -51,10 +43,8 @@ func GetFederalToken(idToken, projectNumber, poolId, providerId string) (string,
 
 func GetGoogleCloudAccessToken(federatedToken string, serviceAccountEmail string) (string, error) {
 	ctx := context.Background()
-	tokenSource := &staticTokenSource{
-		token: &oauth2.Token{AccessToken: federatedToken},
-	}
-	service, err := iamcredentials.NewService(ctx, option.WithTokenSource(tokenSource))
+	token := &oauth2.Token{AccessToken: federatedToken}
+	service, err := iamcredentials.NewService(ctx, option.WithTokenSource(oauth2.StaticTokenSource(token)))
 	if err != nil {
 		return "", err
 	}
