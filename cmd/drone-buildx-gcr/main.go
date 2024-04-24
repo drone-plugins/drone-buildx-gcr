@@ -41,11 +41,11 @@ func loadConfig() Config {
 	if idToken != "" && projectId != "" && poolId != "" && providerId != "" && serviceAccountEmail != "" {
 		federalToken, err := gcp.GetFederalToken(idToken, projectId, poolId, providerId)
 		if err != nil {
-			logrus.Fatalf("Error (getFederalToken): %s", err)
+			logrus.Fatalf("Error getting federal token: %s", err)
 		}
 		accessToken, err := gcp.GetGoogleCloudAccessToken(federalToken, serviceAccountEmail)
 		if err != nil {
-			logrus.Fatalf("Error (getGoogleCloudAccessToken): %s", err)
+			logrus.Fatalf("Error getting Google Cloud Access Token: %s", err)
 		}
 		config.AccessToken = accessToken
 	} else {
