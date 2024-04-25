@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"log"
 	"os"
 	"path"
@@ -55,6 +56,11 @@ func loadConfig() Config {
 			"GOOGLE_CREDENTIALS",
 			"TOKEN",
 		)
+		// decode the token if base64 encoded
+		decoded, err := base64.StdEncoding.DecodeString(password)
+		if err == nil {
+			password = string(decoded)
+		}
 		config.Password = password
 	}
 	config.Username = username
