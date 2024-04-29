@@ -3,7 +3,7 @@ module github.com/drone-plugins/drone-buildx-gcr
 go 1.21
 
 require (
-	github.com/drone-plugins/drone-buildx v1.1.1-0.20240421214441-457c07806e5f
+	github.com/drone-plugins/drone-buildx v1.1.1
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/oauth2 v0.19.0
