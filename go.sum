@@ -18,8 +18,10 @@ github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46t
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/drone-plugins/drone-buildx v1.1.7 h1:v++Lb1xJ5pAyN/Mo+NZFtuDLvyWRdGM+LgzuSsArHqU=
-github.com/drone-plugins/drone-buildx v1.1.7/go.mod h1:vof8lA/q9NCcKPV4HSipz30+Du4o10wIcmp+tOlX4yI=
+github.com/drone-plugins/drone-buildx v1.1.1 h1:apPCqcE36Dbkn8ZEquN72MGAEEfXchm00lEyyaDrmFY=
+github.com/drone-plugins/drone-buildx v1.1.1/go.mod h1:vof8lA/q9NCcKPV4HSipz30+Du4o10wIcmp+tOlX4yI=
+github.com/drone-plugins/drone-buildx v1.1.11 h1:VptLGoYpU1bRASm70kDsb25Cw7XjcDbu9PWHqiKugmo=
+github.com/drone-plugins/drone-buildx v1.1.11/go.mod h1:loDc/WeyLXbxABq23i8avR9V4u8t+vVDw7l41Tv2/nk=
 github.com/drone-plugins/drone-plugin-lib v0.4.2 h1:EiJ3Kco6ypP5noBQqVt1bBbuO1eUAumtPvLTX/NVAYg=
 github.com/drone-plugins/drone-plugin-lib v0.4.2/go.mod h1:KwCu92jFjHV3xv2hu5Qg/8zBNvGwbhoJDQw/EwnTvoM=
 github.com/drone/drone-go v1.7.1 h1:ZX+3Rs8YHUSUQ5mkuMLmm1zr1ttiiE2YGNxF3AnyDKw=
