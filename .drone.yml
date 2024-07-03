@@ -32,6 +32,243 @@ trigger:
     - "refs/pull/**"
 
 ---
+kind: pipeline
+type: vm
+name: windows-1809
+
+pool:
+  use: windows
+
+platform:
+  os: windows
+  arch: amd64
+
+steps:
+  - name: go build
+    image: golang:1.19
+    environment:
+      CGO_ENABLED: 0
+    commands:
+      - go build -o release/windows/amd64/buildx-gcr.exe ./cmd/drone-buildx-gcr
+  - name: build gcr plugin
+    image: plugins/docker:20.17.4-windows-1809-amd64
+    settings:
+      dockerfile: docker/gcr/Dockerfile.windows.amd64.1809
+      repo: plugins/buildx-gcr
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      auto_tag: true
+      auto_tag_suffix: windows-1809-amd64
+      purge: false
+    when:
+      event: [push, tag]
+
+depends_on:
+  - testing
+
+trigger:
+  ref:
+    - refs/heads/main
+    - refs/tags/*
+    - "refs/pull/**"
+
+---
+kind: pipeline
+type: vm
+name: windows-ltsc2022
+
+pool:
+  use: windows-2022
+
+platform:
+  os: windows
+
+steps:
+  - name: go build
+    image: golang:1.19
+    environment:
+      CGO_ENABLED: 0
+    commands:
+      - go build -o release/windows/amd64/buildx-gcr.exe ./cmd/drone-buildx-gcr
+  - name: build gcr plugin
+    image: plugins/docker
+    settings:
+      dockerfile: docker/gcr/Dockerfile.windows.amd64.ltsc2022
+      repo: plugins/buildx-gcr
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      auto_tag: true
+      auto_tag_suffix: windows-ltsc2022-amd64
+      purge: false
+    when:
+      event: [push, tag]
+
+depends_on:
+  - testing
+
+trigger:
+  ref:
+    - refs/heads/main
+    - refs/tags/*
+    - "refs/pull/**"
+
+---
+kind: pipeline
+name: linux-amd64-gcr
+type: vm
+
+pool:
+  use: ubuntu
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build-push
+    image: golang:1.19
+    commands:
+      - 'go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -tags netgo -o release/linux/amd64/buildx-gcr ./cmd/drone-buildx-gcr'
+    environment:
+      CGO_ENABLED: 0
+    when:
+      event:
+        exclude:
+          - tag
+  - name: build-tag
+    image: golang:1.19
+    commands:
+      - 'go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -tags netgo -o release/linux/amd64/buildx-gcr ./cmd/drone-buildx-gcr'
+    environment:
+      CGO_ENABLED: 0
+    when:
+      event:
+        - tag
+  - name: publish
+    image: plugins/docker:18
+    settings:
+      auto_tag: true
+      auto_tag_suffix: linux-amd64
+      daemon_off: false
+      dockerfile: docker/gcr/Dockerfile.linux.amd64
+      password:
+        from_secret: docker_password
+      repo: plugins/buildx-gcr
+      username:
+        from_secret: docker_username
+    when:
+      event:
+        exclude:
+          - pull_request
+
+trigger:
+  ref:
+    - refs/heads/main
+    - "refs/tags/**"
+    - "refs/pull/**"
+
+depends_on:
+  - testing
+
+---
+kind: pipeline
+name: linux-arm64-gcr
+type: vm
+
+pool:
+  use: ubuntu_arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: build-push
+    image: golang:1.19
+    commands:
+      - 'go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -tags netgo -o release/linux/arm64/buildx-gcr ./cmd/drone-buildx-gcr'
+    environment:
+      CGO_ENABLED: 0
+    when:
+      event:
+        exclude:
+          - tag
+
+  - name: build-tag
+    image: golang:1.19
+    commands:
+      - 'go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -tags netgo -o release/linux/arm64/buildx-gcr ./cmd/drone-buildx-gcr'
+    environment:
+      CGO_ENABLED: 0
+    when:
+      event:
+        - tag
+
+  - name: publish
+    image: plugins/docker:18
+    settings:
+      auto_tag: true
+      auto_tag_suffix: linux-arm64
+      daemon_off: false
+      dockerfile: docker/gcr/Dockerfile.linux.arm64
+      password:
+        from_secret: docker_password
+      repo: plugins/buildx-gcr
+      username:
+        from_secret: docker_username
+    when:
+      event:
+        exclude:
+          - pull_request
+
+trigger:
+  ref:
+    - refs/heads/main
+    - "refs/tags/**"
+    - "refs/pull/**"
+
+depends_on:
+  - testing
+
+---
+kind: pipeline
+name: notifications-gcr
+type: vm
+
+pool:
+  use: ubuntu
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: manifest
+    image: plugins/manifest
+    settings:
+      ignore_missing: true
+      password:
+        from_secret: docker_password
+      spec: docker/gcr/manifest.tmpl
+      username:
+        from_secret: docker_username
+
+trigger:
+  ref:
+    - refs/heads/main
+    - "refs/tags/**"
+
+depends_on:
+  - windows-1809
+  - windows-ltsc2022
+  - linux-amd64-gcr
+  - linux-arm64-gcr
+
+---
 
 kind: pipeline
 name: release-binaries
