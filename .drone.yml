@@ -34,49 +34,6 @@ trigger:
 ---
 kind: pipeline
 type: vm
-name: windows-1809
-
-pool:
-  use: windows
-
-platform:
-  os: windows
-  arch: amd64
-
-steps:
-  - name: go build
-    image: golang:1.19
-    environment:
-      CGO_ENABLED: 0
-    commands:
-      - go build -o release/windows/amd64/buildx-gcr.exe ./cmd/drone-buildx-gcr
-  - name: build gcr plugin
-    image: plugins/docker:20.17.4-windows-1809-amd64
-    settings:
-      dockerfile: docker/gcr/Dockerfile.windows.amd64.1809
-      repo: plugins/buildx-gcr
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      auto_tag: true
-      auto_tag_suffix: windows-1809-amd64
-      purge: false
-    when:
-      event: [push, tag]
-
-depends_on:
-  - testing
-
-trigger:
-  ref:
-    - refs/heads/main
-    - refs/tags/*
-    - "refs/pull/**"
-
----
-kind: pipeline
-type: vm
 name: windows-ltsc2022
 
 pool:
