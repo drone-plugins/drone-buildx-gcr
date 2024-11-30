@@ -96,6 +96,21 @@ func main() {
 	os.Setenv("PLUGIN_REGISTRY_TYPE", "GCR")
 
 	// invoke the base docker plugin binary
+	log.Println("PLUGIN_REGISTRY ", os.Getenv("PLUGIN_REGISTRY"))
+	log.Println("DOCKER_USERNAME ", os.Getenv("DOCKER_USERNAME"))
+	log.Println("DOCKER_PASSWORD ", os.Getenv("DOCKER_PASSWORD"))
+	log.Println("PLUGIN_CONFIG ", os.Getenv("PLUGIN_CONFIG"))
+	log.Println("PLUGIN_REPO ", os.Getenv("PLUGIN_REPO"))
+	log.Println("PLUGIN_REGION ", os.Getenv("PLUGIN_REGION"))
+	log.Println("PLUGIN_BASE_IMAGE_USERNAME ", os.Getenv("PLUGIN_BASE_IMAGE_USERNAME"))
+	log.Println("PLUGIN_BASE_IMAGE_PASSWORD ", os.Getenv("PLUGIN_BASE_IMAGE_PASSWORD"))
+	log.Println("PLUGIN_BASE_IMAGE_REGISTRY ", os.Getenv("PLUGIN_BASE_IMAGE_REGISTRY"))
+	log.Println("PLUGIN_ACCESS_KEY ", os.Getenv("PLUGIN_ACCESS_KEY"))
+	log.Println("PLUGIN_SECRET_KEY ", os.Getenv("PLUGIN_SECRET_KEY"))
+	log.Println("PLUGIN_ASSUME_ROLE ", os.Getenv("PLUGIN_ASSUME_ROLE"))
+	log.Println("PLUGIN_DOCKER_USERNAME ", os.Getenv("PLUGIN_DOCKER_USERNAME"))
+	log.Println("PLUGIN_DOCKER_PASSWORD ", os.Getenv("PLUGIN_DOCKER_PASSWORD"))
+	log.Println("PLUGIN_DOCKER_REGISTRY ", os.Getenv("PLUGIN_DOCKER_REGISTRY"))
 	docker.Run()
 }
 
