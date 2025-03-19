@@ -107,7 +107,7 @@ pipeline:
                         repo: plugins/buildx-gcr
                         tags:
                           - windows-1809-amd64
-                        caching: true
+                        caching: false
                         dockerfile: docker/gcr/Dockerfile.windows.amd64.1809
                       when:
                         stageStatus: Success
@@ -195,7 +195,7 @@ pipeline:
                         repo: plugins/buildx-gcr
                         tags:
                           - windows-ltsc2022-amd64
-                        caching: true
+                        caching: false
                         dockerfile: docker/gcr/Dockerfile.windows.amd64.ltsc2022
                       when:
                         stageStatus: Success
@@ -302,7 +302,7 @@ pipeline:
                         repo: plugins/buildx-gcr
                         tags:
                           - linux-amd64
-                        caching: true
+                        caching: false
                         dockerfile: docker/gcr/Dockerfile.linux.amd64
                       when:
                         stageStatus: Success
@@ -409,7 +409,7 @@ pipeline:
                         repo: plugins/buildx-gcr
                         tags:
                           - linux-arm64
-                        caching: true
+                        caching: false
                         dockerfile: docker/gcr/Dockerfile.linux.arm64
                       when:
                         stageStatus: Success
@@ -507,3 +507,4 @@ pipeline:
             description: ""
             required: false
             value: drone-plugins
+  allowStageExecutions: true
