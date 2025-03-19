@@ -469,16 +469,7 @@ pipeline:
                       GOOS=darwin  GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gcr-darwin-amd64 ./cmd/drone-buildx-gcr
                       GOOS=darwin  GOARCH=arm64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gcr-darwin-arm64 ./cmd/drone-buildx-gcr
                       GOOS=windows GOARCH=amd64   go build -ldflags "-s -w" -a -tags netgo -o release/drone-buildx-gcr-windows-amd64 ./cmd/drone-buildx-gcr
-                    envVariables:
-                      CGO_ENABLED: "0"
-                      GO111MODULE: "on"
-              - step:
-                  type: Run
-                  name: zstd Compress
-                  identifier: zstd_Compress
-                  spec:
-                    shell: Sh
-                    command: |-
+
                       apt-get update -y
                       apt-get install -y zstd
 
@@ -487,6 +478,9 @@ pipeline:
                       zstd release/drone-buildx-gcr-darwin-arm64
                       zstd release/drone-buildx-gcr-darwin-amd64
                       zstd release/drone-buildx-gcr-windows-amd64
+                    envVariables:
+                      CGO_ENABLED: "0"
+                      GO111MODULE: "on"
               - step:
                   type: Plugin
                   name: Release
