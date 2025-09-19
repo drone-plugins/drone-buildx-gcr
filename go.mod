@@ -1,11 +1,11 @@
 module github.com/drone-plugins/drone-buildx-gcr
 
-go 1.22
+go 1.23.0
 
-toolchain go1.22.0
+toolchain go1.24.5
 
 require (
-	github.com/drone-plugins/drone-buildx v1.2.1
+	github.com/drone-plugins/drone-buildx v1.3.8
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/oauth2 v0.19.0
@@ -39,7 +39,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.24.0 // indirect
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240415180920-8c6c420018be // indirect
 	google.golang.org/grpc v1.63.0 // indirect
