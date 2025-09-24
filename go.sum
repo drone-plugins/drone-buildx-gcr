@@ -22,6 +22,8 @@ github.com/drone-plugins/drone-buildx v1.2.1 h1:a7eN1oy4u8PqeFPiG2gDhRfKWdw8Wvkw
 github.com/drone-plugins/drone-buildx v1.2.1/go.mod h1:RvpdpL5Ho1rY7kG2td+0Mcle7A81ozBEl6jc1F6m6a8=
 github.com/drone-plugins/drone-buildx v1.3.8 h1:JbB+GuK7d3EzVbq4zU/HgUEFioc9tCiu2CKvEiYkMIA=
 github.com/drone-plugins/drone-buildx v1.3.8/go.mod h1:qn5sY9Wm5OMuPuIYy0mM1Lu5j3SP1VqlBmiO+lcHB2I=
+github.com/drone-plugins/drone-buildx v1.3.9 h1:0HHkOkyHVSt4bw0XPHg0Tv6WfCy+loyrTWK+RehLuHg=
+github.com/drone-plugins/drone-buildx v1.3.9/go.mod h1:qn5sY9Wm5OMuPuIYy0mM1Lu5j3SP1VqlBmiO+lcHB2I=
 github.com/drone-plugins/drone-plugin-lib v0.4.2 h1:EiJ3Kco6ypP5noBQqVt1bBbuO1eUAumtPvLTX/NVAYg=
 github.com/drone-plugins/drone-plugin-lib v0.4.2/go.mod h1:KwCu92jFjHV3xv2hu5Qg/8zBNvGwbhoJDQw/EwnTvoM=
 github.com/drone/drone-go v1.7.1 h1:ZX+3Rs8YHUSUQ5mkuMLmm1zr1ttiiE2YGNxF3AnyDKw=
