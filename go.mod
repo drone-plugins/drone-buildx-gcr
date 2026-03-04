@@ -5,7 +5,7 @@ go 1.24.11
 toolchain go1.25.5
 
 require (
-	github.com/drone-plugins/drone-buildx v1.3.12
+	github.com/drone-plugins/drone-buildx v1.3.15
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.4
 	golang.org/x/oauth2 v0.30.0
