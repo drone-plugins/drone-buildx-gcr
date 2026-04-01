@@ -1,8 +1,6 @@
 module github.com/drone-plugins/drone-buildx-gcr
 
-go 1.24.11
-
-toolchain go1.25.5
+go 1.26.0
 
 require (
 	github.com/drone-plugins/drone-buildx v1.3.15
