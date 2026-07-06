@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/base64"
-	"fmt"
 	"log"
 	"os"
 	"path"
@@ -100,11 +99,14 @@ func main() {
 	// parallel GCR push steps on the same host VM don't race on the shared
 	// /root/.docker/config.json file. Docker CLI respects the DOCKER_CONFIG
 	// env var automatically for all docker login / docker buildx build calls.
+	// On failure, fall back to the default Docker config dir so the step can
+	// still succeed (e.g. if /tmp is full but the root filesystem is not).
 	isolatedDockerConfig, err := os.MkdirTemp("", "harness-buildx-gcr-docker-config-*")
 	if err != nil {
-		log.Fatal(fmt.Sprintf("error creating isolated docker config dir: %v", err))
+		log.Printf("warning: could not create isolated docker config dir, falling back to default: %v", err)
+	} else {
+		os.Setenv("DOCKER_CONFIG", isolatedDockerConfig)
 	}
-	os.Setenv("DOCKER_CONFIG", isolatedDockerConfig)
 
 	// invoke the base docker plugin binary
 	docker.Run()
