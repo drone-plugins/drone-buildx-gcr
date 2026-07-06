@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"fmt"
 	"log"
 	"os"
 	"path"
@@ -94,6 +95,16 @@ func main() {
 		os.Setenv("DOCKER_PASSWORD", config.Password)
 	}
 	os.Setenv("PLUGIN_REGISTRY_TYPE", "GCR")
+
+	// Create an isolated Docker config directory for this invocation so that
+	// parallel GCR push steps on the same host VM don't race on the shared
+	// /root/.docker/config.json file. Docker CLI respects the DOCKER_CONFIG
+	// env var automatically for all docker login / docker buildx build calls.
+	isolatedDockerConfig, err := os.MkdirTemp("", "harness-buildx-gcr-docker-config-*")
+	if err != nil {
+		log.Fatal(fmt.Sprintf("error creating isolated docker config dir: %v", err))
+	}
+	os.Setenv("DOCKER_CONFIG", isolatedDockerConfig)
 
 	// invoke the base docker plugin binary
 	docker.Run()
