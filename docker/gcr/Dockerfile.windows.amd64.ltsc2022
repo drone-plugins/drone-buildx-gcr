@@ -1,5 +1,5 @@
 # escape=`
-FROM plugins/buildx:windows-ltsc2022-amd64
+FROM plugins/buildx:1.3.25
 
 LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" `
   org.label-schema.name="Drone GCR" `
