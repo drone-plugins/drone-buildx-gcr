@@ -1,4 +1,4 @@
-FROM plugins/buildx:1.3.25
+FROM plugins/buildx:1.3.29
 
 ADD release/linux/arm64/buildx-gcr /bin/
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh", "/bin/buildx-gcr"]
