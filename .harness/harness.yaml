@@ -20,7 +20,7 @@ pipeline:
         spec:
           cloneCodebase: true
           caching:
-            enabled: false
+            enabled: true
             paths: []
           platform:
             os: Linux
@@ -39,6 +39,8 @@ pipeline:
                     image: golang:1.22
                     shell: Sh
                     command: go vet ./...
+          buildIntelligence:
+            enabled: true
         variables:
           - name: DRONE_REPO_OWNER
             type: String
@@ -215,7 +217,7 @@ pipeline:
             spec:
               cloneCodebase: true
               caching:
-                enabled: false
+                enabled: true
                 paths: []
               platform:
                 os: Linux
@@ -308,6 +310,8 @@ pipeline:
                         stageStatus: Success
                         condition: |
                           <+codebase.build.type> == "branch"
+              buildIntelligence:
+                enabled: true
             variables:
               - name: DRONE_REPO_OWNER
                 type: String
@@ -322,7 +326,7 @@ pipeline:
             spec:
               cloneCodebase: true
               caching:
-                enabled: false
+                enabled: true
                 paths: []
               platform:
                 os: Linux
@@ -415,6 +419,8 @@ pipeline:
                         stageStatus: Success
                         condition: |
                           <+codebase.build.type> == "branch"    
+              buildIntelligence:
+                enabled: true
             variables:
               - name: DRONE_REPO_OWNER
                 type: String
